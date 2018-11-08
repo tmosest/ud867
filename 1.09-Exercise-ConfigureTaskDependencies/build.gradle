@@ -39,30 +39,44 @@ task brew {
 }
 
 task pour {
+    dependsOn "brew"
     doLast {
         println "Pouring. Glug, glug, glug."
     }
 }
 
 task addSweetener {
+    dependsOn "pour"
     doLast {
         println "Adding sweetener. Stir, stir, stir."
     }
 }
 
+/*
+Note we do not need the "" around the task names
+*/
 task drink {
+    dependsOn pour
+    mustRunAfter addSweetener
     doLast {
         println "Drinking. Gulp, gulp, gulp."
     }
 }
 
 task blackCoffee {
+    dependsOn "drink"
     doLast {
         println "Mmmm, bitter! just how I like it."
     }
 }
 
+
+/*
+    Note this works as well:
+    dependsOn = ["drink", "addSweetener"]
+*/
 task sweetCoffee {
+    dependsOn drink, addSweetener
     doLast {
         println "Mmmm, sweet! just how I like it."
     }
